@@ -1,0 +1,659 @@
+[index.html](https://github.com/user-attachments/files/29711020/index.html)
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VELOCE // Ultimate Hypercar Portal</title>
+    <style>
+        /* Renk Paleti ve Temel Sıfırlama */
+        :root {
+            --bg-dark: #050507;
+            --bg-card: #0c0c10;
+            --accent: #ff3e3e;
+            --accent-glow: linear-gradient(135deg, #ff3e3e, #ff7b00);
+            --text-light: #ffffff;
+            --text-gray: #8e8e9f;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Navigasyon Barı */
+        header {
+            background: rgba(5, 5, 7, 0.96);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        nav .logo {
+            font-size: 24px;
+            font-weight: 900;
+            text-decoration: none;
+            color: var(--text-light);
+            letter-spacing: 3px;
+        }
+
+        nav .logo span {
+            color: var(--accent);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 20px;
+        }
+
+        nav ul li a {
+            color: var(--text-gray);
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: color 0.3s;
+        }
+
+        nav ul li a:hover {
+            color: var(--text-light);
+        }
+
+        /* Genel Section Yapısı */
+        section {
+            padding: 120px 20px 80px 20px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: clamp(2rem, 4vw, 2.8rem);
+            font-weight: 800;
+            margin-bottom: 15px;
+            text-align: center;
+            letter-spacing: -1px;
+            text-transform: uppercase;
+        }
+
+        .section-subtitle {
+            font-size: 15px;
+            color: var(--text-gray);
+            text-align: center;
+            margin-bottom: 60px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .section-title span {
+            background: var(--accent-glow);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* --- 1. GİRİŞ (HERO) --- */
+        #hero {
+            text-align: center;
+            min-height: 40vh;
+            display: flex;
+            justify-content: center;
+            background: radial-gradient(circle at center, #1a1010 0%, var(--bg-dark) 70%);
+        }
+
+        #hero h1 {
+            font-size: clamp(2.5rem, 7vw, 5rem);
+            font-weight: 900;
+            letter-spacing: -2px;
+            line-height: 1.1;
+            margin-bottom: 25px;
+            text-transform: uppercase;
+        }
+
+        #hero h1 span {
+            background: var(--accent-glow);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        #hero p {
+            font-size: clamp(1rem, 2vw, 1.25rem);
+            color: var(--text-gray);
+            max-width: 750px;
+            margin-bottom: 40px;
+            font-weight: 300;
+        }
+
+        /* --- 2. MODELLER --- */
+        .models-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            width: 100%;
+        }
+
+        .car-card {
+            background: var(--bg-card);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.02);
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .car-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(255, 62, 62, 0.3);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.6);
+        }
+
+        .car-card img {
+            width: 100%;
+            height: 230px;
+            object-fit: cover;
+            background: #151518;
+        }
+
+        .car-info {
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .car-info h3 {
+            font-size: 22px;
+            font-weight: 800;
+            margin-bottom: 12px;
+        }
+
+        .car-info p {
+            color: var(--text-gray);
+            font-size: 14px;
+            margin-bottom: 25px;
+        }
+
+        /* Sığmayan Teknik Tablo Alanı Düzenlemesi */
+        .car-specs-mini {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding-top: 15px;
+            gap: 10px;
+            margin-top: auto; /* Verileri her zaman kartın en altına sabitler */
+        }
+
+        .spec-item {
+            flex: 1;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.01);
+            padding: 8px 4px;
+            border-radius: 6px;
+            border: 1px solid rgba(255, 255, 255, 0.02);
+        }
+
+        .spec-item .label {
+            font-size: 10px;
+            color: var(--text-gray);
+            text-transform: uppercase;
+            display: block;
+            margin-bottom: 2px;
+            white-space: nowrap;
+        }
+
+        .spec-item .value {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--accent);
+            white-space: nowrap;
+        }
+
+        /* --- 3. VİDEO OYNATICI --- */
+        #video-section {
+            background: #09090d;
+        }
+
+        .video-container-html5 {
+            max-width: 950px;
+            width: 100%;
+            margin: 0 auto;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            background: #000;
+        }
+
+        .video-container-html5 video {
+            width: 100%;
+            display: block;
+            height: auto;
+        }
+
+        /* --- 4. YORUMLAR --- */
+        #reviews {
+            background: var(--bg-dark);
+        }
+
+        .reviews-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            width: 100%;
+        }
+
+        .review-card {
+            background: var(--bg-card);
+            padding: 30px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.02);
+        }
+
+        .review-card p {
+            font-style: italic;
+            color: var(--text-light);
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        .review-card .author {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--accent);
+            text-transform: uppercase;
+        }
+
+        /* --- 5. SIKÇA SORULAN SORULAR --- */
+        #faq {
+            background: #09090d;
+        }
+
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .faq-item {
+            background: var(--bg-card);
+            padding: 25px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.02);
+        }
+
+        .faq-item h3 {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: var(--text-light);
+        }
+
+        .faq-item p {
+            color: var(--text-gray);
+            font-size: 14px;
+        }
+
+        /* --- 6. GALERİ --- */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            width: 100%;
+        }
+
+        .gallery-item {
+            border-radius: 8px;
+            overflow: hidden;
+            height: 200px;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s;
+            background: #151518;
+        }
+
+        /* --- 7. İLETİŞIM FORMU --- */
+        #contact {
+            background: linear-gradient(180deg, var(--bg-dark) 0%, #0e0808 100%);
+        }
+
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+            width: 100%;
+            background: var(--bg-card);
+            padding: 40px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.03);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 12px;
+            text-transform: uppercase;
+            color: var(--text-gray);
+            margin-bottom: 8px;
+            letter-spacing: 1px;
+        }
+
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            background: #14141a;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 4px;
+            color: #fff;
+            font-size: 14px;
+        }
+
+        .submit-btn {
+            background: var(--text-light);
+            color: #000;
+            padding: 14px 30px;
+            border: none;
+            width: 100%;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .submit-btn:hover {
+            background: var(--accent);
+            color: #fff;
+        }
+
+        /* Footer */
+        footer {
+            background: #030305;
+            color: var(--text-gray);
+            text-align: center;
+            padding: 40px 20px;
+            font-size: 13px;
+            letter-spacing: 1px;
+            border-top: 1px solid rgba(255, 255, 255, 0.01);
+        }
+
+        /* --- %100 MOBİL UYUM VE TAŞMA ENGELLEME AYARLARI --- */
+        @media (max-width: 768px) {
+            nav {
+                flex-direction: column;
+                gap: 12px;
+                padding: 15px;
+            }
+            nav ul {
+                gap: 12px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            nav ul li a {
+                font-size: 11px;
+            }
+            section {
+                padding: 160px 15px 40px 15px;
+            }
+            .models-grid {
+                grid-template-columns: 1fr; /* Kartlar mobilde taşmadan alt alta sıralanır */
+                gap: 25px;
+            }
+            .car-card img {
+                height: 190px;
+            }
+            .car-info {
+                padding: 20px;
+            }
+            /* Teknik verilerin mobilde dikey ve kusursuz hizalanması */
+            .car-specs-mini {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 8px;
+            }
+            .spec-item {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 10px 14px;
+            }
+            .spec-item .label {
+                margin-bottom: 0;
+                font-size: 11px;
+            }
+            .spec-item .value {
+                font-size: 13px;
+            }
+            .gallery-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+            }
+            .gallery-item {
+                height: 120px;
+            }
+            .contact-form {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigasyon -->
+    <header>
+        <nav>
+            <a href="#hero" class="logo">VELOCE<span>.</span></a>
+            <ul>
+                <li><a href="#models">Modeller</a></li>
+                <li><a href="#video-section">Test</a></li>
+                <li><a href="#reviews">Yorumlar</a></li>
+                <li><a href="#faq">S.S.S</a></li>
+                <li><a href="#gallery">Galeri</a></li>
+                <li><a href="#contact">İletişim</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Giriş Bölümü -->
+    <section id="hero">
+        <div class="container">
+            <h1>PREMIUM <span>SHOWROOM</span></h1>
+            <p>Mühendislik ve estetiğin zirvesi. Sınırları zorlayan teknik detaylar, gerçek kullanıcı deneyimleri ve özel medya galerisi tek bir yapıda.</p>
+        </div>
+    </section>
+
+    <!-- 1. Bölüm: Modeller -->
+    <section id="models">
+        <div class="container">
+            <h2 class="section-title">HİPER <span>MODELLER</span></h2>
+            <p class="section-subtitle">Her biri benzersiz şasi mimarisine ve aerodinamik detaylara sahip özel canavarlar.</p>
+            <div class="models-grid">
+                
+                <div class="car-card">
+                    <img src="https://images.unsplash.com/photo-1617788138017-80ad40651399?auto=format&fit=crop&w=500&q=60" alt="Veloce Rosso">
+                    <div class="car-info">
+                        <h3>Veloce Rosso</h3>
+                        <p>Aktif aerodinamik gövde yapısı ve pist odaklı süspansiyon sistemiyle donatılmış tam bir hız canavarı.</p>
+                        <div class="car-specs-mini">
+                            <div class="spec-item"><span class="label">0-100 km/s</span><span class="value">1.9s</span></div>
+                            <div class="spec-item"><span class="label">Güç</span><span class="value">1200 HP</span></div>
+                            <div class="spec-item"><span class="label">Maks Hız</span><span class="value">450 km/s</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="car-card">
+                    <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=500&q=60" alt="Veloce Stealth">
+                    <div class="car-info">
+                        <h3>Veloce Nero Stealth</h3>
+                        <p>Karbon fiber şasi tasarımı ve tamamen elektrikli sessiz motor teknolojisiyle geleceğin çizgileri.</p>
+                        <div class="car-specs-mini">
+                            <div class="spec-item"><span class="label">0-100 km/s</span><span class="value">2.1s</span></div>
+                            <div class="spec-item"><span class="label">Güç</span><span class="value">1100 HP</span></div>
+                            <div class="spec-item"><span class="label">Maks Hız</span><span class="value">420 km/s</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="car-card">
+                    <img src="https://images.unsplash.com/photo-1544829099-b9a0c07fad1a?auto=format&fit=crop&w=500&q=60" alt="Veloce Giallo">
+                    <div class="car-info">
+                        <h3>Veloce Giallo</h3>
+                        <p>Gelişmiş yol tutuş mimarisi ve hibrit motor seçeneğiyle hem sokakta hem pistte ödün vermeyen performans.</p>
+                        <div class="car-specs-mini">
+                            <div class="spec-item"><span class="label">0-100 km/s</span><span class="value">2.3s</span></div>
+                            <div class="spec-item"><span class="label">Güç</span><span class="value">1050 HP</span></div>
+                            <div class="spec-item"><span class="label">Maks Hız</span><span class="value">400 km/s</span></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- 2. Bölüm: Video Alanı -->
+    <section id="video-section">
+        <div class="container">
+            <h2 class="section-title">PERFORMANS <span>PİSTİ</span></h2>
+            <p class="section-subtitle">Veloce prototiplerinin kapalı devre yarış pistlerindeki aerodinamik sınır testleri.</p>
+            
+            <div class="video-container-html5">
+                <video controls preload="auto" poster="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=800&q=70">
+                    <source src="https://upload.wikimedia.org/wikipedia/commons/2/22/2019-06-02_Race_2_at_the_2019_DTM_Zolder_round_-_pit_stop_of_Lo%C3%AFc_Duval.webm" type="video/webm">
+                    Tarayıcınız video oynatmayı desteklemiyor.
+                </video>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. Bölüm: Sürücü Görüşleri -->
+    <section id="reviews">
+        <div class="container">
+            <h2 class="section-title">SÜRÜCÜ <span>GÖRÜŞLERİ</span></h2>
+            <p class="section-subtitle">Direksiyon başına geçme şansı yakalayan profesyonel pilotların ilk yorumları.</p>
+            <div class="reviews-grid">
+                <div class="review-card">
+                    <p>"Gaza bastığınız an elektrik motorlarının ürettiği tork vücudunuzu koltuğa kilitliyor. Hayatımda böyle bir ivme hissetmedim."</p>
+                    <div class="author">- Marco R., Test Pilotu</div>
+                </div>
+                <div class="review-card">
+                    <p>"Karbon şasi virajlarda o kadar stabil ki, araba sanki ray üzerinde gidiyormuş gibi hissettiriyor. Mühendislik harikası."</p>
+                    <div class="author">- Sarah L., Otomobil Editörü</div>
+                </div>
+                <div class="review-card">
+                    <p>"Batarya menzili ve 800V ultra hızlı şarj desteği bu performans sınıfındaki bir araç için devrim niteliğinde."</p>
+                    <div class="author">- Kenji T., Yarış Mühendisi</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. Bölüm: Sıkça Sorulan Sorular -->
+    <section id="faq">
+        <div class="container">
+            <h2 class="section-title">SIKÇA SORULAN <span>SORULAR</span></h2>
+            <p class="section-subtitle">Teknik altyapı, sipariş süreçleri ve servis operasyonları hakkında tüm ayrıntılar.</p>
+            <div class="faq-container">
+                <div class="faq-item">
+                    <h3>Araçların batarya ömrü ne kadardır?</h3>
+                    <p>Kullandığımız yeni nesil katı hal (solid-state) bataryalar, 10 yıl boyunca %95'in üzerinde verimlilik koruma garantisine sahiptir.</p>
+                </div>
+                <div class="faq-item">
+                    <h3>Şarj süresi ne kadar sürüyor?</h3>
+                    <p>800V DC yüksek hızlı şarj istasyonlarında sadece 15 dakika içinde %10'dan %80 doluluk oranına ulaşabilmektedir.</p>
+                </div>
+                <div class="faq-item">
+                    <h3>Gövde malzemesinde ne kullanıldı?</h3>
+                    <p>Aracın tamamı, Formula 1 araçlarında da kullanılan havacılık standartlarında hafifletilmiş titanyum destekli karbon fiber malzemeden üretilmiştir.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. Bölüm: Galeri -->
+    <section id="gallery">
+        <div class="container">
+            <h2 class="section-title">MEDYA <span>GALERİSİ</span></h2>
+            <p class="section-subtitle">Tasarım çizgilerine ve ince işçilik detaylarına yakından bakın.</p>
+            <div class="gallery-grid">
+                <div class="gallery-item"><img src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=400&q=60" alt="Görsel 1"></div>
+                <div class="gallery-item"><img src="https://images.unsplash.com/photo-1568605114967-8130f3a36994?auto=format&fit=crop&w=400&q=60" alt="Görsel 2"></div>
+                <div class="gallery-item"><img src="https://images.unsplash.com/photo-1525609004556-c46c7d6cf0a3?auto=format&fit=crop&w=400&q=60" alt="Görsel 3"></div>
+                <div class="gallery-item"><img src="https://images.unsplash.com/photo-1494976388531-d1058494cdd8?auto=format&fit=crop&w=400&q=60" alt="Görsel 4"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. Bölüm: İletişim Formu -->
+    <section id="contact">
+        <div class="container">
+            <h2 class="section-title">BİZE <span>ULAŞIN</span></h2>
+            <p class="section-subtitle">Ön sipariş, özel özelleştirme seçenekleri ve randevu talepleriniz için formu doldurabilirsiniz.</p>
+            
+            <form class="contact-form" onsubmit="event.preventDefault(); alert('Talebiniz başarıyla alındı!');">
+                <div class="form-group">
+                    <label>Adınız Soyadınız</label>
+                    <input type="text" placeholder="Örn: Ad Soyad" required>
+                </div>
+                <div class="form-group">
+                    <label>E-Posta Adresiniz</label>
+                    <input type="email" placeholder="isim@ornek.com" required>
+                </div>
+                <div class="form-group">
+                    <label>Mesajınız / Talep Detayı</label>
+                    <textarea rows="5" placeholder="İlgilendiğiniz model ve detayları yazın..." required></textarea>
+                </div>
+                <button type="submit" class="submit-btn">Talebi Gönder</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 VELOCE PORTAL. DESIGNED FOR PERFORMANCE AND SPEED.</p>
+    </footer>
+
+</body>
+</html>
